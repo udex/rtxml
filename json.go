@@ -2,6 +2,7 @@ package main
 
 import (
 	"crypto/sha256"
+	"encoding/json"
 	"fmt"
 	"log"
 	"time"
@@ -82,5 +83,29 @@ func hash(prefix, s string) string {
 }
 
 func encodeJSON(b Blogposts) ([]byte, error) {
-	return nil, nil
+	result := []Comment{}
+	req := newReqest()
+
+	for _, post := range b.Blogposts {
+		title := post.Title
+		// Ищем url поста
+		url, err := defineURL(&req, title)
+		if err != nil {
+			url = post.URL
+		}
+		loc := newLocator(url)
+		for _, c := range post.Comments.Comments {
+			name := c.Name
+			uid := c.UserID
+			ip := c.IP
+			u := newUser(name, uid, ip)
+			comment := newComment(c.ID, c.Pid, c.Text, c.Time, u, loc, c.Score)
+			result = append(result, comment)
+		}
+	}
+	bt, err := json.Marshal(result)
+	if err != nil {
+		return nil, err
+	}
+	return bt, nil
 }

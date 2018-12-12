@@ -12,7 +12,6 @@ type Blogposts struct {
 type Blogpost struct {
 	XMLName  xml.Name    `xml:"blogpost"`
 	URL      string      `xml:"url"`
-	UserID   string      `xml:"email"`
 	Title    string      `xml:"title"`
 	GUID     int         `xml:"guid"`
 	Comments XMLComments `xml:"comments"`
@@ -26,9 +25,11 @@ type XMLComments struct {
 type XMLComment struct {
 	XMLName xml.Name `xml:"comment"`
 	ID      string   `xml:"id,attr"`
-	Pid     string   `xml:"parrentid,attr"`
+	Pid     string   `xml:"parentid,attr"`
 	Text    string   `xml:"text"`
 	Name    string   `xml:"name"`
+	UserID  string   `xml:"email"`
+	IP      string   `xml:"ip"`
 	Score   int      `xml:"score"`
 	Time    string   `xml:"date"`
 }
