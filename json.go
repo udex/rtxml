@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
+	"strings"
 	"time"
 )
 
@@ -85,13 +86,13 @@ func hash(prefix, s string) string {
 func encodeJSON(b Blogposts, r *rt) ([]byte, error) {
 	result := []Comment{}
 	for _, post := range b.Blogposts {
-		title := post.Title
+		title := strings.TrimSpace(post.Title)
 		// Ищем url поста
 		url, err := r.url(title)
 		if err != nil {
-			// Пост не является ни записью подкаста, ни темами для записи, поэтому выводим сообщение с темой и пропускаем
-			msg := fmt.Sprintf("Post was not found in new version of site. Tile - [%s]", title)
-			log.Println(msg)
+			// Пост не является ни записью подкаста, ни темами для записи ИЛИ
+			// в новой версии сайта пост не нашелся, поэтому выводим сообщение с темой и пропускаем
+			log.Println(err)
 			continue
 		}
 		loc := newLocator(url)
