@@ -127,7 +127,8 @@ func (r *rt) url(title string) (string, error) {
 		url := r.podcasts[num]
 		return url, nil
 	}
-	if strings.HasPrefix(title, "Темы") {
+	if strings.HasPrefix(title, "Темы") || // Первая буква Т - кириллица
+		strings.HasPrefix(title, "Tемы") { // Первая буква T - латиница !!!
 		url := r.prep[num]
 		return url, nil
 	}

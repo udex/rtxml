@@ -3,7 +3,6 @@ package main
 import (
 	"encoding/xml"
 	"flag"
-	"fmt"
 	"log"
 	"os"
 )
@@ -44,6 +43,6 @@ func write(b []byte, p string) {
 	if err != nil {
 		log.Fatal(err)
 	}
-	fmt.Printf("%d bytes has been written\n", i)
+	log.Printf("%d bytes has been written\n", i)
 
 }

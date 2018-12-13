@@ -7,6 +7,6 @@ rtxml имеет 4 параметра:
 * `podcast` - путь до json файла, полученного из api radio-t.com по запросу `GET /last/1000?categories=podcast` (все выпуски подкастов)
 * `prep` - - путь до json файла, полученного из api radio-t.com по запросу `GET /last/1000?categories=prep` (все темы для выпусков)
 
-Параметры вводятся в стиле Plan 9 (дефолтным для go):
+Параметры вводятся в стиле Plan 9 (дефолтном для go):
 
 `./rtxml -input ./IntenseDebate_clean.xml -output ./rt.json -podcast ./podcast.json -prep ./prep.json`
