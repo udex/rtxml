@@ -1,5 +1,5 @@
 # Конвертер из XML в JSON для сайта radio-t.com
-Полное описание задачи можно находится [здесь](https://github.com/radio-t/radio-t-site/issues/23)
+Полное описание задачи находится [здесь](https://github.com/radio-t/radio-t-site/issues/23)
 
 rtxml имеет 4 параметра:
 * `input` - путь до xml файла для обработки
