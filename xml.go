@@ -13,7 +13,7 @@ type Blogpost struct {
 	XMLName  xml.Name    `xml:"blogpost"`
 	URL      string      `xml:"url"`
 	Title    string      `xml:"title"`
-	GUID     int         `xml:"guid"`
+	GUID     string      `xml:"guid"`
 	Comments XMLComments `xml:"comments"`
 }
 

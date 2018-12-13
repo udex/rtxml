@@ -78,20 +78,18 @@ func hash(prefix, s string) string {
 		return s
 	}
 	h := sha256.New224()
-	h.Write([]byte("s"))
+	h.Write([]byte(s))
 	return fmt.Sprintf("%s_%x", prefix, h.Sum(nil))
 }
 
-func encodeJSON(b Blogposts) ([]byte, error) {
+func encodeJSON(b Blogposts, r *rt) ([]byte, error) {
 	result := []Comment{}
-	req := newReqest()
-
 	for _, post := range b.Blogposts {
 		title := post.Title
 		// Ищем url поста
-		url, err := defineURL(&req, title)
+		url, err := r.url(title)
 		if err != nil {
-			url = post.URL
+			continue // Пост не является ни записью подкаста, ни темами для записи, поэтому пропускаем
 		}
 		loc := newLocator(url)
 		for _, c := range post.Comments.Comments {
