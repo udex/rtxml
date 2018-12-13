@@ -89,7 +89,10 @@ func encodeJSON(b Blogposts, r *rt) ([]byte, error) {
 		// Ищем url поста
 		url, err := r.url(title)
 		if err != nil {
-			continue // Пост не является ни записью подкаста, ни темами для записи, поэтому пропускаем
+			// Пост не является ни записью подкаста, ни темами для записи, поэтому выводим сообщение с темой и пропускаем
+			msg := fmt.Sprintf("Post was not found in new version of site. Tile - [%s]", title)
+			log.Println(msg)
+			continue
 		}
 		loc := newLocator(url)
 		for _, c := range post.Comments.Comments {
