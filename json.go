@@ -104,15 +104,12 @@ func commgen(b Blogposts, r *rt) <-chan Comment {
 			url, err := r.url(title)
 			if err != nil {
 				// Пост не является ни записью подкаста, ни темами для записи
+				url = "https://radio-t.com/old_comments_idb"
 				log.Println(err)
-				continue
 			}
 			loc := newLocator(url)
 			for _, c := range post.Comments.Comments {
-				name := c.Name
-				uid := c.UserID
-				ip := c.IP
-				u := newUser(name, uid, ip)
+				u := newUser(c.Name, c.UserID, c.IP)
 				comment := newComment(c.ID, c.Pid, c.Text, c.Time, u, loc, c.Score)
 				ch <- comment
 			}

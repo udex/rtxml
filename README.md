@@ -3,7 +3,7 @@
 
 rtxml имеет 2 параметра:
 * `podcast` - путь до json файла, полученного из api radio-t.com по запросу `GET /last/1000?categories=podcast` (все выпуски подкастов)
-* `prep` - - путь до json файла, полученного из api radio-t.com по запросу `GET /last/1000?categories=prep` (все темы для выпусков)
+* `prep` - путь до json файла, полученного из api radio-t.com по запросу `GET /last/1000?categories=prep` (все темы для выпусков)
 
 Параметры вводятся в стиле Plan 9 (дефолтном для go), данные принимаются с stdin, выводятся на stdout (ошибки - в stderr):
 
