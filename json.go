@@ -45,8 +45,8 @@ func parseTimestamp(s string) time.Time {
 
 func newComment(id, pid, text, timestamp string, user User, loc Locator, score int) Comment {
 	return Comment{
-		ID:    idbID("", id),
-		Pid:   idbID("", pid),
+		ID:    idbID("idb", id),
+		Pid:   idbID("idb", pid),
 		Text:  text,
 		User:  user,
 		Loc:   loc,
