@@ -17,11 +17,6 @@ func main() {
 	//outf := flag.String("output", "", "путь до json файла, в который будет записан результат")
 	flag.Parse()
 
-	data, err := ioutil.ReadAll(os.Stdin)
-	if err != nil {
-		log.Fatal(err)
-	}
-
 	// Проверка, введены ли все аргументы
 	set := []string{*prepf, *podcastf}
 	for _, f := range set {
@@ -29,6 +24,11 @@ func main() {
 			flag.PrintDefaults()
 			os.Exit(1)
 		}
+	}
+
+	data, err := ioutil.ReadAll(os.Stdin)
+	if err != nil {
+		log.Fatal(err)
 	}
 
 	var posts Blogposts
