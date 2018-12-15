@@ -31,12 +31,14 @@ func newRt(podcast, prep string) rt {
 	// чем сочинять хитрый велосипед для нахождения.
 	r := rt{
 		cache: map[string]string{
-			"Радио-Т 150 (нам 3 года)": "https://radio-t.com/p/2009/08/18/prep-150/",
-			"Запись и трансляция #43":  "https://radio-t.com/p/2007/07/08/podcast-43/",
-			"Запись и трансляция #42":  "https://radio-t.com/p/2007/07/01/podcast-42/",
-			"Запись и трансляция #40":  "https://radio-t.com/p/2007/06/17/podcast-40/",
-			"Темы для РТ#114":          "https://radio-t.com/p/2008/11/25/prep-114/",
-			"Темы для РТ#119":          "https://radio-t.com/p/2009/01/01/prep-119/",
+			"Радио-Т 150 (нам 3 года)":  "https://radio-t.com/p/2009/08/18/prep-150/",
+			"Запись Радио-T #37":        "https://radio-t.com/p/2007/05/26/podcast-37/",
+			"Запись и трансляция #43":   "https://radio-t.com/p/2007/07/08/podcast-43/",
+			"Запись и трансляция #42":   "https://radio-t.com/p/2007/07/01/podcast-42/",
+			"Запись и трансляция #40":   "https://radio-t.com/p/2007/06/17/podcast-40/",
+			"Радио-T #49. Год в эфире!": "https://radio-t.com/p/2007/08/26/podcast-49/",
+			"Темы для РТ#114":           "https://radio-t.com/p/2008/11/25/prep-114/",
+			"Темы для РТ#119":           "https://radio-t.com/p/2009/01/01/prep-119/",
 		},
 		podcasts: jsonToMap(podcast),
 		prep:     jsonToMap(prep),
