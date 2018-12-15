@@ -76,7 +76,7 @@ func newLocator(url string) Locator {
 func userID(name, uid string) string {
 	prefix := "idb"
 	if uid != "" {
-		return uid
+		return idbID(prefix, uid)
 	}
 	if name != "" {
 		return idbID(prefix, name)
