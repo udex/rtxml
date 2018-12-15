@@ -75,13 +75,13 @@ func newLocator(url string) Locator {
 
 func userID(name, uid string) string {
 	prefix := "idb"
-	if uid == "" && name == "" {
-		return idbID(prefix, "unknown")
+	if uid != "" {
+		return uid
 	}
-	if uid == "" {
+	if name != "" {
 		return idbID(prefix, name)
 	}
-	return idbID(prefix, uid)
+	return idbID(prefix, "unknown")
 }
 
 func idbID(prefix, s string) string {
