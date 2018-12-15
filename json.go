@@ -47,7 +47,7 @@ func newComment(id, pid, text, timestamp string, user User, loc Locator, score i
 	return Comment{
 		ID:    idbID("idb", id),
 		Pid:   idbID("idb", pid),
-		Text:  text,
+		Text:  fmt.Sprintf("<p>%s</p>", text),
 		User:  user,
 		Loc:   loc,
 		Score: score,
