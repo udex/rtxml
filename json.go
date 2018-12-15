@@ -130,7 +130,6 @@ func jsongen(cs <-chan Comment) <-chan string {
 			bt, err := json.Marshal(c)
 			if err != nil {
 				log.Printf("[ERROR] Comment: [%v], error: %s", c, err)
-				close(ch)
 				break
 			}
 			ch <- string(bt)
