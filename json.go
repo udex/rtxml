@@ -1,7 +1,6 @@
 package main
 
 import (
-	"crypto/sha256"
 	"encoding/json"
 	"fmt"
 	"log"
@@ -46,8 +45,8 @@ func parseTimestamp(s string) time.Time {
 
 func newComment(id, pid, text, timestamp string, user User, loc Locator, score int) Comment {
 	return Comment{
-		ID:    hash("idb", id),
-		Pid:   hash("idb", pid),
+		ID:    idbID("", id),
+		Pid:   idbID("", pid),
 		Text:  text,
 		User:  user,
 		Loc:   loc,
@@ -60,10 +59,10 @@ func newComment(id, pid, text, timestamp string, user User, loc Locator, score i
 func newUser(name, uid, ip string) User {
 	return User{
 		Name:  name,
-		ID:    hash("disqus", uid),
+		ID:    userID(name, uid),
 		Pic:   "",
 		Admin: false,
-		IP:    hash("", ip),
+		IP:    ip,
 	}
 }
 
@@ -74,39 +73,70 @@ func newLocator(url string) Locator {
 	}
 }
 
-func hash(prefix, s string) string {
-	if s == "" {
-		return s
+func userID(name, uid string) string {
+	prefix := "idb"
+	if uid == "" && name == "" {
+		return idbID(prefix, "unknown")
 	}
-	h := sha256.New224()
-	h.Write([]byte(s))
-	return fmt.Sprintf("%s_%x", prefix, h.Sum(nil))
+	if uid == "" {
+		return idbID(prefix, name)
+	}
+	return idbID(prefix, uid)
 }
 
-func encodeJSON(b Blogposts, r *rt) ([]byte, error) {
-	result := []Comment{}
-	for _, post := range b.Blogposts {
-		title := strings.TrimSpace(post.Title)
-		// Ищем url поста
-		url, err := r.url(title)
-		if err != nil {
-			// Пост не является ни записью подкаста, ни темами для записи
-			log.Println(err)
-			continue
-		}
-		loc := newLocator(url)
-		for _, c := range post.Comments.Comments {
-			name := c.Name
-			uid := c.UserID
-			ip := c.IP
-			u := newUser(name, uid, ip)
-			comment := newComment(c.ID, c.Pid, c.Text, c.Time, u, loc, c.Score)
-			result = append(result, comment)
-		}
+func idbID(prefix, s string) string {
+	if s == "" || s == "0" {
+		return ""
 	}
-	bt, err := json.Marshal(result)
-	if err != nil {
-		return nil, err
+	if prefix != "" {
+		prefix = fmt.Sprintf("%s_", prefix)
 	}
-	return bt, nil
+	return fmt.Sprintf("%s%s", prefix, s)
+}
+
+// commgen генерирует Comment структуры
+func commgen(b Blogposts, r *rt) <-chan Comment {
+	ch := make(chan Comment)
+	go func() {
+		for _, post := range b.Blogposts {
+			title := strings.TrimSpace(post.Title)
+			// Ищем url поста
+			url, err := r.url(title)
+			if err != nil {
+				// Пост не является ни записью подкаста, ни темами для записи
+				log.Println(err)
+				continue
+			}
+			loc := newLocator(url)
+			for _, c := range post.Comments.Comments {
+				name := c.Name
+				uid := c.UserID
+				ip := c.IP
+				u := newUser(name, uid, ip)
+				comment := newComment(c.ID, c.Pid, c.Text, c.Time, u, loc, c.Score)
+				ch <- comment
+			}
+		}
+		close(ch)
+	}()
+	return ch
+}
+
+// jsongen генерирует строковые json представления каждого комментария
+func jsongen(cs <-chan Comment) <-chan string {
+	ch := make(chan string)
+	go func() {
+		for c := range cs {
+			bt, err := json.Marshal(c)
+			if err != nil {
+				log.Printf("[ERROR] Comment: [%v], error: %s", c, err)
+				close(ch)
+				break
+			}
+			ch <- string(bt)
+		}
+		close(ch)
+	}()
+	return ch
+
 }

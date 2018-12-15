@@ -4,9 +4,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"io/ioutil"
 	"log"
-	"os"
 	"strconv"
 	"strings"
 )
@@ -74,19 +72,6 @@ func jsonToMap(fpath string) map[int]string {
 		res[num] = url
 	}
 	return res
-}
-
-func read(p string) []byte {
-	f, err := os.Open(p)
-	if err != nil {
-		log.Fatal(err)
-	}
-	defer f.Close()
-	b, err := ioutil.ReadAll(f)
-	if err != nil {
-		log.Fatal(err)
-	}
-	return b
 }
 
 // toNumber пытается из заголовка блога (title) извлечь номер подкаста. Некоторые значения забиты вручную,
